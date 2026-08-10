@@ -37,3 +37,7 @@ scripts/orchestrate/.ruff_cache
 scripts/orchestrate/.pytest_cache
 scripts/orchestrate/.orchestrate-state
 scripts/orchestrate/*.egg-info
+
+# Session-handoff prompts — working artifacts for a future session, not
+# shared team documentation.
+docs/prompts/
