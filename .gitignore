@@ -28,3 +28,12 @@ storybook-static
 
 # Claude Code local (per-session/machine) settings — not shared team config.
 .claude/settings.local.json
+
+# orchestrate (Python, uv-managed) — scripts/orchestrate/
+scripts/orchestrate/.venv
+scripts/orchestrate/__pycache__
+scripts/orchestrate/**/__pycache__
+scripts/orchestrate/.ruff_cache
+scripts/orchestrate/.pytest_cache
+scripts/orchestrate/.orchestrate-state
+scripts/orchestrate/*.egg-info
