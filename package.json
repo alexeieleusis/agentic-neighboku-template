@@ -9,6 +9,7 @@
     "watch": "tsc -b --watch",
     "lint": "eslint .",
     "lint:lensflow": "eslint --config eslint.lensflow.config.js .",
+    "lint:lensflow:report": "eslint --config eslint.lensflow.config.js . --format json --output-file reports/eslint-lensflow.json",
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest --coverage",

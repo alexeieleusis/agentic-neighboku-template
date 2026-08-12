@@ -26,6 +26,9 @@ dist-ssr
 *storybook.log
 storybook-static
 
+# Generated lint reports (e.g. lint:lensflow:report for SonarQube import)
+reports/
+
 # Claude Code local (per-session/machine) settings — not shared team config.
 .claude/settings.local.json
 
@@ -44,3 +47,4 @@ docs/prompts/
 .env.vibeheal
 .harness.toml
 sonar-project.properties
+.scannerwork/
