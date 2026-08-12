@@ -41,3 +41,6 @@ scripts/orchestrate/*.egg-info
 # Session-handoff prompts — working artifacts for a future session, not
 # shared team documentation.
 docs/prompts/
+.env.vibeheal
+.harness.toml
+sonar-project.properties
