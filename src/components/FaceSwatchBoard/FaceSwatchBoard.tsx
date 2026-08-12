@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { closestCenter, DndContext, useDndMonitor } from "@dnd-kit/core";
+import { DndContext, pointerWithin, useDndMonitor } from "@dnd-kit/core";
 import type {
   TelescopeComponent,
   TelescopedProps,
@@ -27,7 +27,7 @@ import { DraggableFaceTile } from "./DraggableFaceTile";
 export const FaceSwatchBoard: TelescopeComponent<FaceSwatchBoardState> =
   function (props: TelescopedProps<FaceSwatchBoardState>): React.ReactElement {
     return (
-      <DndContext collisionDetection={closestCenter}>
+      <DndContext collisionDetection={pointerWithin}>
         <FaceSwatchBoardConnected {...props} />
       </DndContext>
     );
