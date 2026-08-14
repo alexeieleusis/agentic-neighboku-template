@@ -23,7 +23,7 @@ const occupiedState = {
 
 const filledState = {
   trayTileIds: ["h1e1m1" as FaceTileId],
-  slotTileId: "h0e0m0" as FaceTileId,
+  slotTileId: createFaceTileId("h0e0m0"),
 } satisfies FaceSwatchBoardState;
 
 const canDropTileTests = [
