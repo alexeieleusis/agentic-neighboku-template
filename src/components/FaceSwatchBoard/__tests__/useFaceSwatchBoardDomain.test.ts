@@ -50,10 +50,10 @@ describe("FaceSwatchBoard domain", () => {
 
   describe("returnSlotTile", () => {
     it("returns the slot tile to the tray", () => {
-      const filled: FaceSwatchBoardState = {
+      const filled = {
         trayTileIds: ["h1e1m1"],
         slotTileId: "h0e0m0",
-      };
+      } satisfies FaceSwatchBoardState;
       expect(returnSlotTile(filled)).toEqual({
         trayTileIds: ["h1e1m1", "h0e0m0"],
         slotTileId: null,
