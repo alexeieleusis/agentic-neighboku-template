@@ -28,7 +28,7 @@ export interface DraggableRefs {
 export interface DraggableRender {
   readonly attributes: DraggableAttributes;
   readonly listeners: SyntheticListenerMap | undefined;
-  transform: Transform | null;
+  readonly transform: Transform | null;
 }
 
 export type DndKitDraggable = DraggableState & DraggableRefs & DraggableRender;
