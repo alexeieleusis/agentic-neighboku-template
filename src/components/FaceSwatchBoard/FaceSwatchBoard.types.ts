@@ -1,12 +1,14 @@
 import type { DragEndEvent } from "@dnd-kit/core";
 
+export type FaceTileId = string & { readonly brand: unique symbol };
+
 export interface FaceSwatchBoardState {
-  readonly trayTileIds: ReadonlyArray<string>;
-  readonly slotTileId: string | null;
+  readonly trayTileIds: ReadonlyArray<FaceTileId>;
+  readonly slotTileId: FaceTileId | null;
 }
 
 export interface FaceTile {
-  readonly id: string;
+  readonly id: FaceTileId;
   readonly imageSrc: string;
 }
 
