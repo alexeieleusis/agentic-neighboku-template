@@ -18,7 +18,7 @@ export interface DndKitDraggable {
   activatorEvent: Event | null;
   activeNodeRect: ClientRect | null;
   attributes: DraggableAttributes;
-  isDragging: boolean;
+  readonly isDragging: boolean;
   readonly listeners: SyntheticListenerMap | undefined;
   readonly node: { current: HTMLElement | null };
   readonly over: Over | null;
