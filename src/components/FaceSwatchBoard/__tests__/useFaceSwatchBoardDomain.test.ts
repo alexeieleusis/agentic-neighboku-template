@@ -67,7 +67,7 @@ const returnSlotTileTests = [
     name: "returns the slot tile to the tray",
     run: () =>
       expect(returnSlotTile(filledState)).toEqual({
-        trayTileIds: ["h1e1m1" as FaceTileId, "h0e0m0" as FaceTileId],
+        trayTileIds: ["h1e1m1" as FaceTileId, createFaceTileId("h0e0m0")],
         slotTileId: null,
       }),
   },
