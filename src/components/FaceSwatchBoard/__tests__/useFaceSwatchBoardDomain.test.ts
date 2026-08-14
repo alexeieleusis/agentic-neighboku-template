@@ -30,7 +30,7 @@ const canDropTileTests = [
   {
     name: "allows dropping a tray tile into an empty slot",
     run: () =>
-      expect(canDropTile(emptySlotState, "h0e0m0" as FaceTileId)).toBe(true),
+      expect(canDropTile(emptySlotState, createFaceTileId("h0e0m0"))).toBe(true),
   },
   {
     name: "refuses to drop a tile the tray doesn't have",
