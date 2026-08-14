@@ -40,7 +40,7 @@ const canDropTileTests = [
   {
     name: "refuses to drop into an occupied slot",
     run: () =>
-      expect(canDropTile(occupiedState, "h0e0m0" as FaceTileId)).toBe(false),
+      expect(canDropTile(occupiedState, createFaceTileId("h0e0m0"))).toBe(false),
   },
 ];
 
