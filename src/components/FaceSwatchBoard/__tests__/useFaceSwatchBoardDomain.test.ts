@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type {
-  FaceSwatchBoardState,
-  FaceTileId,
+import {
+  createFaceTileId,
+  type FaceSwatchBoardState,
+  type FaceTileId,
 } from "../FaceSwatchBoard.types";
 import {
   canDropTile,
@@ -80,7 +81,7 @@ const faceTileImageSrcTests = [
   {
     name: "builds the public face image path",
     run: () =>
-      expect(faceTileImageSrc("h0e1m2" as FaceTileId)).toBe(
+      expect(faceTileImageSrc(createFaceTileId("h0e1m2"))).toBe(
         "/faces/h0e1m2.png",
       ),
   },
