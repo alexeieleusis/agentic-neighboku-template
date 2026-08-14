@@ -23,6 +23,6 @@ export interface DndKitDraggable {
   node: MutableRefObject<HTMLElement | null>;
   over: Over | null;
   setNodeRef: (element: HTMLElement | null) => void;
-  setActivatorNodeRef: (element: HTMLElement | null) => void;
+  readonly setActivatorNodeRef: (element: HTMLElement | null) => void;
   transform: Transform | null;
 }
