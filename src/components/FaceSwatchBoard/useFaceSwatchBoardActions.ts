@@ -26,7 +26,9 @@ export function useFaceSwatchBoardActions(
   const onDragEnd = useCallback(
     (event: DragEndEvent) => {
       if (event.over?.id === SLOT_DROPPABLE_ID) {
-        telescope.update(dropTile(props.state, String(event.active.id) as FaceTileId));
+        telescope.update(
+          dropTile(props.state, String(event.active.id) as FaceTileId),
+        );
       }
     },
     [telescope, props.state],

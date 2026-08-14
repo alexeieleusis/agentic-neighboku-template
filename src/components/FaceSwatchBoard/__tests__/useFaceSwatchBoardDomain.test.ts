@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import type { FaceSwatchBoardState, FaceTileId } from "../FaceSwatchBoard.types";
+import type {
+  FaceSwatchBoardState,
+  FaceTileId,
+} from "../FaceSwatchBoard.types";
 import {
   canDropTile,
   dropTile,
@@ -25,15 +28,18 @@ const filledState = {
 const canDropTileTests = [
   {
     name: "allows dropping a tray tile into an empty slot",
-    run: () => expect(canDropTile(emptySlotState, "h0e0m0" as FaceTileId)).toBe(true),
+    run: () =>
+      expect(canDropTile(emptySlotState, "h0e0m0" as FaceTileId)).toBe(true),
   },
   {
     name: "refuses to drop a tile the tray doesn't have",
-    run: () => expect(canDropTile(emptySlotState, "h2e2m2" as FaceTileId)).toBe(false),
+    run: () =>
+      expect(canDropTile(emptySlotState, "h2e2m2" as FaceTileId)).toBe(false),
   },
   {
     name: "refuses to drop into an occupied slot",
-    run: () => expect(canDropTile(occupiedState, "h0e0m0" as FaceTileId)).toBe(false),
+    run: () =>
+      expect(canDropTile(occupiedState, "h0e0m0" as FaceTileId)).toBe(false),
   },
 ];
 
@@ -48,7 +54,10 @@ const dropTileTests = [
   },
   {
     name: "is a no-op when the drop is illegal",
-    run: () => expect(dropTile(occupiedState, "h0e0m0" as FaceTileId)).toBe(occupiedState),
+    run: () =>
+      expect(dropTile(occupiedState, "h0e0m0" as FaceTileId)).toBe(
+        occupiedState,
+      ),
   },
 ];
 
@@ -70,7 +79,10 @@ const returnSlotTileTests = [
 const faceTileImageSrcTests = [
   {
     name: "builds the public face image path",
-    run: () => expect(faceTileImageSrc("h0e1m2" as FaceTileId)).toBe("/faces/h0e1m2.png"),
+    run: () =>
+      expect(faceTileImageSrc("h0e1m2" as FaceTileId)).toBe(
+        "/faces/h0e1m2.png",
+      ),
   },
 ];
 
