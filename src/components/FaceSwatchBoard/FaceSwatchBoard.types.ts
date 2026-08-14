@@ -10,12 +10,23 @@ export interface FaceTile {
   readonly imageSrc: string;
 }
 
-export interface FaceSwatchBoardViewModel {
+export interface FaceSwatchBoardTiles {
   readonly trayTiles: ReadonlyArray<FaceTile>;
   readonly slotTile: FaceTile | null;
+}
+
+export interface FaceSwatchBoardDropState {
   readonly droppableRef: (element: HTMLElement | null) => void;
   readonly isOver: boolean;
   readonly canDropActive: boolean;
+}
+
+export interface FaceSwatchBoardActions {
   readonly onDragEnd: (event: DragEndEvent) => void;
   readonly onReturnTile: () => void;
 }
+
+export type FaceSwatchBoardViewModel =
+  & FaceSwatchBoardTiles
+  & FaceSwatchBoardDropState
+  & FaceSwatchBoardActions;
