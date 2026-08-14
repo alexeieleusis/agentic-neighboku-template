@@ -18,7 +18,7 @@ const emptySlotState = {
 
 const occupiedState = {
   ...emptySlotState,
-  slotTileId: "h1e1m1" as FaceTileId,
+  slotTileId: createFaceTileId("h1e1m1"),
 } satisfies FaceSwatchBoardState;
 
 const filledState = {
