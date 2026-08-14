@@ -15,7 +15,7 @@ export interface DndKitDroppable {
 
 export interface DndKitDraggable {
   active: Active | null;
-  activatorEvent: Event | null;
+  readonly activatorEvent: Event | null;
   readonly activeNodeRect: ClientRect | null;
   readonly attributes: DraggableAttributes;
   readonly isDragging: boolean;
