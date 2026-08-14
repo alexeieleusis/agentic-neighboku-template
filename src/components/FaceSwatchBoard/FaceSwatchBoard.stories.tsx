@@ -20,16 +20,15 @@ const meta = {
 } satisfies Meta<typeof FaceSwatchBoardHost>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Default: StoryObj<typeof meta> = {
   args: {
     trayTileIds: ["h0e0m0", "h0e1m2", "h1e0m1", "h2e2m0"],
     slotTileId: null,
   },
 };
 
-export const SlotFilled: Story = {
+export const SlotFilled: StoryObj<typeof meta> = {
   args: {
     trayTileIds: ["h0e0m0", "h0e1m2", "h1e0m1"],
     slotTileId: "h2e2m0",
