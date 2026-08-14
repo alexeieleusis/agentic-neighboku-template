@@ -74,7 +74,7 @@ export class FaceSwatchBoardViewModelImpl implements FaceSwatchBoardViewModel {
     isOver: boolean;
     canDropActive: boolean;
     onDragEnd: (event: DragEndEvent) => void;
-    onReturnTile: () => void;
+    readonly onReturnTile: () => void;
   }): FaceSwatchBoardViewModel {
     const {
       trayTiles,
