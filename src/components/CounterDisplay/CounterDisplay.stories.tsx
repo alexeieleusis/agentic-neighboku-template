@@ -26,7 +26,7 @@ const meta = {
 } satisfies Meta<typeof CounterDisplayHost>;
 
 export default meta;
-type Story = StoryObj<Meta<typeof CounterDisplayHost>>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: { initialCount: 0 },
