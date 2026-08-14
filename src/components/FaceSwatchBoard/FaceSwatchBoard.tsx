@@ -94,7 +94,7 @@ function RenderFaceSwatchBoard(
             alignItems: "center",
             justifyContent: "center",
             border: dropStatus != null ? "3px solid" : "2px dashed",
-            borderColor: dropStatus != null ? `${dropStatus}.main` : "divider",
+            borderColor: dropStatus == null ? "divider" : `${dropStatus}.main`,
             borderRadius: 1,
             backgroundColor: dropStatus === null ? "transparent" : `${dropStatus}.dark`,
             transition: "background-color 100ms, border-color 100ms",
