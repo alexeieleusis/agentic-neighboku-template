@@ -44,11 +44,12 @@ function FaceSwatchBoardConnected(
 function RenderFaceSwatchBoard(
   viewModel: Readonly<FaceSwatchBoardViewModel>,
 ): React.ReactElement {
-  const dropStatus = !viewModel.isOver
-    ? null
-    : viewModel.canDropActive
-      ? "success"
-      : "error";
+  let dropStatus: string | null;
+  if (!viewModel.isOver) {
+    dropStatus = null;
+  } else {
+    dropStatus = viewModel.canDropActive ? "success" : "error";
+  }
 
   let slotContent: React.ReactNode = null;
   if (viewModel.slotTile) {
