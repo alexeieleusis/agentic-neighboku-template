@@ -9,7 +9,7 @@ export interface DndKitDroppable {
   rect: MutableRefObject<ClientRect | null>;
   isOver: boolean;
   node: MutableRefObject<HTMLElement | null>;
-  over: Over | null;
+  readonly over: Over | null;
   readonly setNodeRef: (element: HTMLElement | null) => void;
 }
 
