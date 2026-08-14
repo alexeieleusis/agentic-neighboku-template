@@ -45,10 +45,10 @@ function RenderFaceSwatchBoard(
   viewModel: Readonly<FaceSwatchBoardViewModel>,
 ): React.ReactElement {
   let dropStatus: string | null;
-  if (!viewModel.isOver) {
-    dropStatus = null;
-  } else {
+  if (viewModel.isOver) {
     dropStatus = viewModel.canDropActive ? "success" : "error";
+  } else {
+    dropStatus = null;
   }
 
   let slotContent: React.ReactNode = null;
