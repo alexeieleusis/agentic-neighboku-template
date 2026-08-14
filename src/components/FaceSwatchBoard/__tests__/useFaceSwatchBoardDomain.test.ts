@@ -23,10 +23,10 @@ describe("FaceSwatchBoard domain", () => {
     });
 
     it("refuses to drop into an occupied slot", () => {
-      const occupied: FaceSwatchBoardState = {
+      const occupied = {
         ...emptySlotState,
         slotTileId: "h1e1m1",
-      };
+      } satisfies FaceSwatchBoardState;
       expect(canDropTile(occupied, "h0e0m0")).toBe(false);
     });
   });
