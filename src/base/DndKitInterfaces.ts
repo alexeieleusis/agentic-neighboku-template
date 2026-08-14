@@ -5,7 +5,7 @@ import type { ClientRect } from "@dnd-kit/core";
 
 export interface DndKitDroppable {
   active: Active | null;
-  rect: { current: ClientRect | null };
+  readonly rect: { current: ClientRect | null };
   readonly isOver: boolean;
   readonly node: { current: HTMLElement | null };
   readonly over: Over | null;
