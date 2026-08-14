@@ -12,7 +12,7 @@ import {
 } from "../useFaceSwatchBoardDomain";
 
 const emptySlotState = {
-  trayTileIds: ["h0e0m0" as FaceTileId, "h1e1m1" as FaceTileId],
+  trayTileIds: [createFaceTileId("h0e0m0"), createFaceTileId("h1e1m1")],
   slotTileId: null,
 } satisfies FaceSwatchBoardState;
 
