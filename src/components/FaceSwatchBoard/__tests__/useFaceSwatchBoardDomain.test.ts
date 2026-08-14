@@ -49,7 +49,7 @@ const dropTileTests = [
     name: "moves a tile from tray to slot",
     run: () =>
       expect(dropTile(emptySlotState, "h0e0m0" as FaceTileId)).toEqual({
-        trayTileIds: ["h1e1m1" as FaceTileId],
+        trayTileIds: [createFaceTileId("h1e1m1")],
         slotTileId: createFaceTileId("h0e0m0"),
       }),
   },
