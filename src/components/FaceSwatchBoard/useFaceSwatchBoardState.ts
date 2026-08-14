@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import type { DndKitDroppable } from "../../base/DndKitInterfaces";
 import type { TelescopedProps } from "../../base/TelescopeComponent";
-import type {
-  FaceSwatchBoardState as BoardState,
-  FaceTileId,
+import {
+  createFaceTileId,
+  type FaceSwatchBoardState as BoardState,
 } from "./FaceSwatchBoard.types";
 import { canDropTile, SLOT_DROPPABLE_ID } from "./useFaceSwatchBoardDomain";
 
@@ -24,7 +24,7 @@ export function useFaceSwatchBoardState(
     const activeDragId = droppable.active ? String(droppable.active.id) : null;
     return (
       activeDragId !== null &&
-      canDropTile(props.state, activeDragId as FaceTileId)
+      canDropTile(props.state, createFaceTileId(activeDragId))
     );
   }, [droppable.active, props.state]);
 
