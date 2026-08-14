@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import type { DragEndEvent } from "@dnd-kit/core";
 import type { TelescopedProps } from "../../base/TelescopeComponent";
-import type { FaceSwatchBoardState, FaceTileId } from "./FaceSwatchBoard.types";
+import { createFaceTileId, type FaceSwatchBoardState } from "./FaceSwatchBoard.types";
 import {
   dropTile,
   returnSlotTile,
@@ -27,7 +27,7 @@ export function useFaceSwatchBoardActions(
     (event: DragEndEvent) => {
       if (event.over?.id === SLOT_DROPPABLE_ID) {
         telescope.update(
-          dropTile(props.state, String(event.active.id) as FaceTileId),
+          dropTile(props.state, createFaceTileId(String(event.active.id))),
         );
       }
     },
