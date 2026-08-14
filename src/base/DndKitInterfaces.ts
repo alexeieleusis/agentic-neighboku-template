@@ -4,7 +4,7 @@ import type { Transform } from "@dnd-kit/utilities";
 import type { ClientRect } from "@dnd-kit/core";
 
 export interface DndKitDroppable {
-  active: Active | null;
+  readonly active: Active | null;
   readonly rect: { current: ClientRect | null };
   readonly isOver: boolean;
   readonly node: { current: HTMLElement | null };
