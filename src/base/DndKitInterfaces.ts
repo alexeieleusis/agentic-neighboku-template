@@ -13,16 +13,24 @@ export interface DndKitDroppable {
   setNodeRef: (element: HTMLElement | null) => void;
 }
 
-export interface DndKitDraggable {
+export interface DraggableState {
   readonly active: Active | null;
   readonly activatorEvent: Event | null;
   readonly activeNodeRect: ClientRect | null;
-  readonly attributes: DraggableAttributes;
-  readonly isDragging: boolean;
-  readonly listeners: SyntheticListenerMap | undefined;
-  readonly node: { current: HTMLElement | null };
   readonly over: Over | null;
+  readonly isDragging: boolean;
+}
+
+export interface DraggableRefs {
+  readonly node: { current: HTMLElement | null };
   readonly setNodeRef: (element: HTMLElement | null) => void;
   readonly setActivatorNodeRef: (element: HTMLElement | null) => void;
+}
+
+export interface DraggableRender {
+  readonly attributes: DraggableAttributes;
+  readonly listeners: SyntheticListenerMap | undefined;
   transform: Transform | null;
 }
+
+export type DndKitDraggable = DraggableState & DraggableRefs & DraggableRender;
