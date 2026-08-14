@@ -11,11 +11,17 @@ import "./index.css";
 import { App } from "./App.tsx";
 import type { AppState } from "./App.types.ts";
 import { darkTheme } from "./theme.ts";
+import { createFaceTileId } from "./components/FaceSwatchBoard/FaceSwatchBoard.types.ts";
 
 const initialState: AppState = {
   counter: { count: 0 },
   faceSwatchBoard: {
-    trayTileIds: ["h0e0m0", "h0e1m2", "h1e0m1", "h2e2m0"],
+    trayTileIds: [
+      createFaceTileId("h0e0m0"),
+      createFaceTileId("h0e1m2"),
+      createFaceTileId("h1e0m1"),
+      createFaceTileId("h2e2m0"),
+    ],
     slotTileId: null,
   },
 };

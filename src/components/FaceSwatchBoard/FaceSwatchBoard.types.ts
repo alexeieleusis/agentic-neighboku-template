@@ -41,15 +41,31 @@ export type FaceSwatchBoardViewModel = FaceSwatchBoardTiles &
   FaceSwatchBoardActions;
 
 export class FaceSwatchBoardViewModelImpl implements FaceSwatchBoardViewModel {
+  public readonly trayTiles: ReadonlyArray<FaceTile>;
+  public readonly slotTile: FaceTile | null;
+  public readonly droppableRef: (element: HTMLElement | null) => void;
+  public readonly isOver: boolean;
+  public readonly canDropActive: boolean;
+  public readonly onDragEnd: (event: DragEndEvent) => void;
+  public readonly onReturnTile: () => void;
+
   private constructor(
-    public readonly trayTiles: ReadonlyArray<FaceTile>,
-    public readonly slotTile: FaceTile | null,
-    public readonly droppableRef: (element: HTMLElement | null) => void,
-    public readonly isOver: boolean,
-    public readonly canDropActive: boolean,
-    public readonly onDragEnd: (event: DragEndEvent) => void,
-    public readonly onReturnTile: () => void,
-  ) {}
+    trayTiles: ReadonlyArray<FaceTile>,
+    slotTile: FaceTile | null,
+    droppableRef: (element: HTMLElement | null) => void,
+    isOver: boolean,
+    canDropActive: boolean,
+    onDragEnd: (event: DragEndEvent) => void,
+    onReturnTile: () => void,
+  ) {
+    this.trayTiles = trayTiles;
+    this.slotTile = slotTile;
+    this.droppableRef = droppableRef;
+    this.isOver = isOver;
+    this.canDropActive = canDropActive;
+    this.onDragEnd = onDragEnd;
+    this.onReturnTile = onReturnTile;
+  }
 
   static create(config: {
     trayTiles: ReadonlyArray<FaceTile>;
