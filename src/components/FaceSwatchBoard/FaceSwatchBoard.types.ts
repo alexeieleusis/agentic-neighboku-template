@@ -7,7 +7,7 @@ export function createFaceTileId(raw: string): FaceTileId {
   if (trimmed.length === 0) {
     throw new TypeError("FaceTileId must not be empty");
   }
-  // eslint-disable-next-line  eslint_repo:lensflow/no-direct-brand-cast
+  // eslint-disable-next-line lensflow/no-direct-brand-cast
   return trimmed as FaceTileId;
 }
 

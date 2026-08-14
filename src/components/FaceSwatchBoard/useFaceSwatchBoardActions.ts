@@ -1,7 +1,10 @@
 import { useCallback } from "react";
 import type { DragEndEvent } from "@dnd-kit/core";
 import type { TelescopedProps } from "../../base/TelescopeComponent";
-import { createFaceTileId, type FaceSwatchBoardState } from "./FaceSwatchBoard.types";
+import {
+  createFaceTileId,
+  type FaceSwatchBoardState,
+} from "./FaceSwatchBoard.types";
 import {
   dropTile,
   returnSlotTile,

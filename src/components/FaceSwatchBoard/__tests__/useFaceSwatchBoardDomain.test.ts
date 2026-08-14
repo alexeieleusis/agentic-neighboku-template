@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   createFaceTileId,
   type FaceSwatchBoardState,
-  type FaceTileId,
 } from "../FaceSwatchBoard.types";
 import {
   canDropTile,
@@ -30,17 +29,23 @@ const canDropTileTests = [
   {
     name: "allows dropping a tray tile into an empty slot",
     run: () =>
-      expect(canDropTile(emptySlotState, createFaceTileId("h0e0m0"))).toBe(true),
+      expect(canDropTile(emptySlotState, createFaceTileId("h0e0m0"))).toBe(
+        true,
+      ),
   },
   {
     name: "refuses to drop a tile the tray doesn't have",
     run: () =>
-      expect(canDropTile(emptySlotState, createFaceTileId("h2e2m2"))).toBe(false),
+      expect(canDropTile(emptySlotState, createFaceTileId("h2e2m2"))).toBe(
+        false,
+      ),
   },
   {
     name: "refuses to drop into an occupied slot",
     run: () =>
-      expect(canDropTile(occupiedState, createFaceTileId("h0e0m0"))).toBe(false),
+      expect(canDropTile(occupiedState, createFaceTileId("h0e0m0"))).toBe(
+        false,
+      ),
   },
 ];
 
