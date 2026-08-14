@@ -69,7 +69,7 @@ export class FaceSwatchBoardViewModelImpl implements FaceSwatchBoardViewModel {
 
   static create(config: {
     trayTiles: ReadonlyArray<FaceTile>;
-    slotTile: FaceTile | null;
+    readonly slotTile: FaceTile | null;
     readonly droppableRef: (element: HTMLElement | null) => void;
     readonly isOver: boolean;
     readonly canDropActive: boolean;
