@@ -10,7 +10,7 @@ export interface DndKitDroppable {
   isOver: boolean;
   node: MutableRefObject<HTMLElement | null>;
   over: Over | null;
-  setNodeRef: (element: HTMLElement | null) => void;
+  readonly setNodeRef: (element: HTMLElement | null) => void;
 }
 
 export interface DraggableState {
