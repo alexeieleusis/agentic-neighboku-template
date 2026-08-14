@@ -8,10 +8,10 @@ import {
 } from "../useFaceSwatchBoardDomain";
 
 describe("FaceSwatchBoard domain", () => {
-  const emptySlotState: FaceSwatchBoardState = {
+  const emptySlotState = {
     trayTileIds: ["h0e0m0", "h1e1m1"],
     slotTileId: null,
-  };
+  } satisfies FaceSwatchBoardState;
 
   describe("canDropTile", () => {
     it("allows dropping a tray tile into an empty slot", () => {
