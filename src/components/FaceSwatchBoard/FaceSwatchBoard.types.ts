@@ -49,22 +49,14 @@ export class FaceSwatchBoardViewModelImpl implements FaceSwatchBoardViewModel {
   public readonly onDragEnd: (event: DragEndEvent) => void;
   public readonly onReturnTile: () => void;
 
-  private constructor(
-    trayTiles: ReadonlyArray<FaceTile>,
-    slotTile: FaceTile | null,
-    droppableRef: (element: HTMLElement | null) => void,
-    isOver: boolean,
-    canDropActive: boolean,
-    onDragEnd: (event: DragEndEvent) => void,
-    onReturnTile: () => void,
-  ) {
-    this.trayTiles = trayTiles;
-    this.slotTile = slotTile;
-    this.droppableRef = droppableRef;
-    this.isOver = isOver;
-    this.canDropActive = canDropActive;
-    this.onDragEnd = onDragEnd;
-    this.onReturnTile = onReturnTile;
+  private constructor(config: FaceSwatchBoardViewModel) {
+    this.trayTiles = config.trayTiles;
+    this.slotTile = config.slotTile;
+    this.droppableRef = config.droppableRef;
+    this.isOver = config.isOver;
+    this.canDropActive = config.canDropActive;
+    this.onDragEnd = config.onDragEnd;
+    this.onReturnTile = config.onReturnTile;
   }
 
   static create(config: {
@@ -115,14 +107,14 @@ export class FaceSwatchBoardViewModelImpl implements FaceSwatchBoardViewModel {
       throw new TypeError("onReturnTile must be a function");
     }
 
-    return new FaceSwatchBoardViewModelImpl(
+    return new FaceSwatchBoardViewModelImpl({
       trayTiles,
       slotTile,
       droppableRef,
-      Boolean(isOver),
-      Boolean(canDropActive),
+      isOver: Boolean(isOver),
+      canDropActive: Boolean(canDropActive),
       onDragEnd,
       onReturnTile,
-    );
+    });
   }
 }
