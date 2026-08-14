@@ -56,7 +56,7 @@ const dropTileTests = [
   {
     name: "is a no-op when the drop is illegal",
     run: () =>
-      expect(dropTile(occupiedState, "h0e0m0" as FaceTileId)).toBe(
+      expect(dropTile(occupiedState, createFaceTileId("h0e0m0"))).toBe(
         occupiedState,
       ),
   },
