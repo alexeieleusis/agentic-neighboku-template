@@ -73,7 +73,7 @@ export class FaceSwatchBoardViewModelImpl implements FaceSwatchBoardViewModel {
     droppableRef: (element: HTMLElement | null) => void;
     isOver: boolean;
     canDropActive: boolean;
-    onDragEnd: (event: DragEndEvent) => void;
+    readonly onDragEnd: (event: DragEndEvent) => void;
     readonly onReturnTile: () => void;
   }): FaceSwatchBoardViewModel {
     const {
