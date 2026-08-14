@@ -7,7 +7,7 @@ import type { ClientRect } from "@dnd-kit/core";
 export interface DndKitDroppable {
   active: Active | null;
   rect: MutableRefObject<ClientRect | null>;
-  isOver: boolean;
+  readonly isOver: boolean;
   readonly node: { current: HTMLElement | null };
   readonly over: Over | null;
   readonly setNodeRef: (element: HTMLElement | null) => void;
