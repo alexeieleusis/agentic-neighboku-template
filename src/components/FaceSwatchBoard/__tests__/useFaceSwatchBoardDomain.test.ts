@@ -40,10 +40,10 @@ describe("FaceSwatchBoard domain", () => {
     });
 
     it("is a no-op when the drop is illegal", () => {
-      const occupied: FaceSwatchBoardState = {
+      const occupied = {
         ...emptySlotState,
         slotTileId: "h1e1m1",
-      };
+      } satisfies FaceSwatchBoardState;
       expect(dropTile(occupied, "h0e0m0")).toBe(occupied);
     });
   });
