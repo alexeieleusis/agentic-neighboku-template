@@ -27,7 +27,9 @@ const initialState: AppState = {
 };
 
 const telescope: Telescope<AppState> = Telescope.of(initialState);
-const root = createRoot(document.getElementById("root")!);
+const rootEl = document.getElementById("root");
+if (!rootEl) throw new Error("Root element not found");
+const root = createRoot(rootEl);
 
 // Mirrors the original app's main.tsx: the root subscribes to the telescope's stream
 // once and re-renders imperatively on every emission. Components below this point only
