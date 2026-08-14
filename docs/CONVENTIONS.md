@@ -143,6 +143,28 @@ original majors; treat them as historical context, not the actual installed vers
   named in `requirements.md` §7.1, the warning doesn't fail `pnpm build`/`pnpm lint`/`pnpm test`,
   and switching isn't worth diverging from the pinned convention over a perf-only suggestion.
 
+## Updating eslint-plugin-lensflow
+
+`eslint-plugin-lensflow` (the LensFlow ESLint rules — see
+`docs/neighboku-ai-rebuild/00-overview.md`) is consumed as an unpublished git dependency, not from
+npm: `"eslint-plugin-lensflow": "github:alexeieleusis/lens-flow#path:/eslint-lensflow-plugin"` in
+`package.json`, tracking the sibling `lens-flow` repo's `main` branch. Rules run at `"warn"` via
+`eslint.lensflow.config.js` / `pnpm lint:lensflow`, separate from the main `pnpm lint`.
+
+pnpm blocks build scripts (the plugin's `prepare` step, which builds `dist/` from source) for git
+dependencies by default (`ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED`) unless the exact resolved
+commit SHA is listed under `allowBuilds` in `pnpm-workspace.yaml`. Because that key embeds the SHA,
+it goes stale every time the dependency is updated. To pick up new rule changes from `main`:
+
+1. Run `pnpm update eslint-plugin-lensflow`. It fails, but the error reports the *new* resolved
+   commit SHA.
+2. Replace the old SHA in `pnpm-workspace.yaml`'s `allowBuilds` key with the new one.
+3. Run `pnpm update eslint-plugin-lensflow` again — it should now build and install successfully.
+4. pnpm sometimes leaves a stray leftover line in `pnpm-workspace.yaml` for the *old* SHA
+   (`<old-key>: set this to true or false`). Confirm via
+   `grep eslint-plugin-lensflow pnpm-lock.yaml` that only the new SHA remains, then delete that
+   line.
+
 ## Reference assets already seeded here — no install/config needed to start a phase
 
 - `src/base/TelescopeComponent.ts`, `src/base/DndKitInterfaces.ts` — copied verbatim from the
