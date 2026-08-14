@@ -22,7 +22,7 @@ const occupiedState = {
 } satisfies FaceSwatchBoardState;
 
 const filledState = {
-  trayTileIds: ["h1e1m1" as FaceTileId],
+  trayTileIds: [createFaceTileId("h1e1m1")],
   slotTileId: createFaceTileId("h0e0m0"),
 } satisfies FaceSwatchBoardState;
 
