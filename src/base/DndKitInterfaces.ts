@@ -1,7 +1,6 @@
-import type { Active, DraggableAttributes, Over } from "@dnd-kit/core";
+import type { Active, ClientRect, DraggableAttributes, Over } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import type { Transform } from "@dnd-kit/utilities";
-import type { ClientRect } from "@dnd-kit/core";
 
 export interface DndKitDroppable {
   readonly active: Active | null;
