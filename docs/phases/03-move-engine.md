@@ -57,11 +57,13 @@ playable puzzle:
 
 ### §3.6 Win / loss detection
 
-The game is considered **solvable** (`gameIsSolvable`) iff all three hold simultaneously:
-every placed move so far has `isValid: true`, every blank cell has at least one piece
-that could fit it, and every remaining tray piece has at least one cell it could fit.
-When the tray becomes empty (`availablePieces.size === 0`), the game-finished dialog is
-shown, using `gameIsSolvable` to pick a success or failure state.
+The game state is considered **valid** (`stateIsValid`) iff all four hold
+simultaneously: every placed move so far has `isValid: true`, every blank cell has
+at least one piece that could fit it, every remaining tray piece has at least one cell
+it could fit, and the number of blank cells equals the number of remaining tray pieces
+(to guard against vacuous-truth edge cases where the tray or board is in an inconsistent
+state). When the tray becomes empty (`availablePieces.size === 0`), the game-finished
+dialog is shown, using `stateIsValid` to pick a success or failure state.
 
 ### §8.3 Difficulty levels are unimplemented
 
@@ -122,16 +124,18 @@ mutation — preserve this discipline in every function added by this phase.
   call against an empty `placedCells` is left unhandled exactly as in the original (this
   is intentional; do not add a length check, early return, or thrown error for this case
   inside `undoPlay`).
-- `gameIsSolvable` returns `true` iff all three hold simultaneously: every entry in
+- `stateIsValid` returns `true` iff all four hold simultaneously: every entry in
   `placedCells` has `isValid: true`, every blank cell has at least one fitting piece per
-  `cellToFitPieces`, and every remaining tray piece has at least one fitting cell per
-  `pieceToFitCells`.
+  `cellToFitPieces`, every remaining tray piece has at least one fitting cell per
+  `pieceToFitCells`, and the number of blank cells equals the number of remaining tray
+  pieces (guards against vacuous-truth edge cases).
 - Unit tests cover: locked-cell detection (including a case exercising the isolation
   guard), both branches of the size-dependent tie-break (a `size > 4` board and a
   `size <= 4` board), the unfolding stop condition, `placePiece`'s throw-vs-record
   behavior under both values of `preventInvalidMoves`, fit-cache recomputation after both
-  `placePiece` and `undoPlay`, and `gameIsSolvable` covering a solvable case and each of
-  the three ways it can become unsolvable.
+  `placePiece` and `undoPlay`, and `stateIsValid` covering a valid case and each of
+  the four ways it can become invalid (including the blank-cells-vs-tray-pieces
+  mismatch).
 - `game/gameBuilder.ts` has zero React/UI imports and uses only readonly types and
   non-mutating (spread-based) updates, including for any `Map` state.
 - A code comment or test note flags the reference-vs-value equality behavior inherited
