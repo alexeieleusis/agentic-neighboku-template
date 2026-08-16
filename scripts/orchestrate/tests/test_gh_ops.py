@@ -42,6 +42,16 @@ def test_pr_view_parses_json(mocker) -> None:
     assert result == {"number": 7, "url": "https://github.com/o/r/pull/7"}
 
 
+def test_pr_view_raises_on_invalid_json(mocker) -> None:
+    mocker.patch(
+        "orchestrate.gh_ops.subprocess.run",
+        return_value=_completed(stdout="{truncated"),
+    )
+
+    with pytest.raises(gh_ops.GhCommandError, match="invalid JSON"):
+        gh_ops.pr_view(Path("/repo"))
+
+
 def test_pr_merge_uses_squash_by_default(mocker) -> None:
     run = mocker.patch("orchestrate.gh_ops.subprocess.run", return_value=_completed())
 

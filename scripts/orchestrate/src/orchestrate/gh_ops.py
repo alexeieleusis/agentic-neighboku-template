@@ -46,7 +46,12 @@ def pr_view(clone: Path) -> dict[str, Any]:
     `clone` — the authoritative source, rather than scraping `pr create`'s
     stdout."""
     result = _run(clone, "pr", "view", "--json", "number,url")
-    return json.loads(result.stdout)
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        raise GhCommandError(
+            ["gh", "pr", "view", "--json", "number,url"], 1, f"invalid JSON: {exc}"
+        ) from exc
 
 
 def pr_merge(clone: Path, pr_number: int, method: str = "squash") -> None:
