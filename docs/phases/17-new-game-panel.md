@@ -17,7 +17,8 @@
 The New Game panel offers exactly these sizes: **4×4, 6×6, 8×8, 9×9, 12×12, 16×16**.
 On first open, the Board Size select defaults to **8×8**.
 Selecting a size updates `dimension`: for `size < 8` the dimension is left unchanged
-(whatever it currently is); for `size >= 8` it is forced to `3`. `base` is not changed
+(whatever it currently is); if no prior value exists, the default `dimension` is `2`.
+For `size >= 8` it is forced to `3`. `base` is not changed
 by the size selector at all in the observed code path — carry this exact rule forward
 even though it looks asymmetric; it is what the original does.
 
@@ -30,7 +31,7 @@ unfolds a fresh puzzle, resets `gamePlay.startTime`, and closes the panel.
 ## Acceptance criteria
 - The Board Size select offers exactly the 6 documented sizes — 4×4, 6×6, 8×8, 9×9, 12×12, 16×16 — no more and no fewer.
 - Starting a new game rebuilds the board using Phase 2's `boardBuilder` and unfolds a fresh puzzle using Phase 3's `unfoldGame`.
-- The size→dimension rule is implemented exactly as specified and is asymmetric by design: for `size < 8`, `dimension` is left unchanged from its current value; for `size >= 8`, `dimension` is forced to `3`.
+- The size→dimension rule is implemented exactly as specified and is asymmetric by design: for `size < 8`, `dimension` is left unchanged from its current value (defaulting to `2` when no prior value exists); for `size >= 8`, `dimension` is forced to `3`.
 - `base` is never modified by the size selector, regardless of which size is chosen.
 - `gamePlay.startTime` is reset when Start is clicked.
 - The New Game drawer closes after Start is clicked.
