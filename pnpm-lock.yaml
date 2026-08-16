@@ -79,8 +79,8 @@ importers:
         specifier: ^10.8.1
         version: 10.8.1(supports-color@7.2.0)
       eslint-plugin-lensflow:
-        specifier: github:alexeieleusis/lens-flow#9051702011d62bb4ca2d26ee378e87ebaae4ccd8&path:/eslint-lensflow-plugin
-        version: https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/9051702011d62bb4ca2d26ee378e87ebaae4ccd8#path:/eslint-lensflow-plugin(eslint-visitor-keys@5.0.1)(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
+        specifier: github:alexeieleusis/lens-flow#36212205e2b9ad60e9371b5945f55f7fdf75aa29&path:/eslint-lensflow-plugin
+        version: https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/36212205e2b9ad60e9371b5945f55f7fdf75aa29#path:/eslint-lensflow-plugin(eslint-visitor-keys@5.0.1)(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       eslint-plugin-react-hooks:
         specifier: ^5.2.0
         version: 5.2.0(eslint@10.8.1(supports-color@7.2.0))
@@ -1632,8 +1632,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-lensflow@https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/9051702011d62bb4ca2d26ee378e87ebaae4ccd8#path:/eslint-lensflow-plugin:
-    resolution: {gitHosted: true, integrity: sha512-ltBxASwG6OPokZUPvoqDI4yrtRqRh2VGpVADA/eVtWUA0MmU1Zxt3gclXMbPqJNoWn92lDLi0i/GOYowDk5uzA==, path: /eslint-lensflow-plugin, tarball: https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/9051702011d62bb4ca2d26ee378e87ebaae4ccd8}
+  eslint-plugin-lensflow@https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/36212205e2b9ad60e9371b5945f55f7fdf75aa29#path:/eslint-lensflow-plugin:
+    resolution: {gitHosted: true, integrity: sha512-G78yu7/FsDymudlY072F+QxPNUyd7rtmaQ5qtriXR5ghYcBo48POlKLfHLIQR4iR+KVb7CB5joyfPn0TGlRrpg==, path: /eslint-lensflow-plugin, tarball: https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/36212205e2b9ad60e9371b5945f55f7fdf75aa29}
     version: 0.0.0
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
     peerDependencies:
@@ -3943,7 +3943,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-lensflow@https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/9051702011d62bb4ca2d26ee378e87ebaae4ccd8#path:/eslint-lensflow-plugin(eslint-visitor-keys@5.0.1)(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3):
+  eslint-plugin-lensflow@https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/36212205e2b9ad60e9371b5945f55f7fdf75aa29#path:/eslint-lensflow-plugin(eslint-visitor-keys@5.0.1)(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3):
     dependencies:
       '@typescript-eslint/utils': 8.67.0(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       '@typescript-eslint/visitor-keys': 8.67.0

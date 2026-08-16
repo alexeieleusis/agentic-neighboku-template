@@ -168,16 +168,51 @@ remote, not any local clone) before debugging the dependency string.
 pnpm blocks build scripts (the plugin's `prepare` step, which builds `dist/` from source) for git
 dependencies by default (`ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED`) unless the exact resolved
 commit SHA is listed under `allowBuilds` in `pnpm-workspace.yaml`. Because that key embeds the SHA,
-it goes stale every time the dependency is updated. To pick up new rule changes from `main`:
+it goes stale every time the dependency is updated.
 
-1. Run `pnpm update eslint-plugin-lensflow`. It fails, but the error reports the *new* resolved
-   commit SHA.
-2. Replace the old SHA in `pnpm-workspace.yaml`'s `allowBuilds` key with the new one.
-3. Run `pnpm update eslint-plugin-lensflow` again — it should now build and install successfully.
-4. pnpm sometimes leaves a stray leftover line in `pnpm-workspace.yaml` for the *old* SHA
-   (`<old-key>: set this to true or false`). Confirm via
-   `grep eslint-plugin-lensflow pnpm-lock.yaml` that only the new SHA remains, then delete that
-   line.
+**To pick up new rule changes from `main`, run `pnpm update:lensflow`** (`scripts/update-lensflow.mjs`).
+It reads the latest `origin/main` commit from the sibling `~/development/lens-flow` clone (running
+`git fetch origin` there first; override the path with `LENS_FLOW_CLONE_PATH`), rewrites the SHA in
+both `package.json` and `pnpm-workspace.yaml`'s `allowBuilds` key, and runs `pnpm install` — including
+the tarball-integrity workaround described below. `--dry-run` stops after printing the target SHA and
+editing `package.json`/`pnpm-workspace.yaml`, without running `pnpm install`.
+
+The rest of this section documents what the script does and why, for when it needs to be debugged or
+reproduced by hand.
+
+**Known failure: `ERR_PNPM_TARBALL_INTEGRITY` on a fresh commit.** Updating to a commit pushed within
+roughly the last day can fail like this, repeatably, even across `pnpm store prune` and
+`pnpm install --update-checksums`:
+
+```
+[ERR_PNPM_TARBALL_INTEGRITY] Got unexpected checksum for "https://codeload.github.com/.../tar.gz/<sha>".
+Wanted "sha512-<hash-A>". Got "sha512-<hash-B>".
+```
+
+Diagnosed 2026-08-16: this is not tampering or a stale local cache. `pnpm update`/`pnpm install
+--update-checksums` can write a `resolution.integrity` into `pnpm-lock.yaml` for the *new* commit that
+is byte-identical to the *previous* pinned commit's integrity, instead of the new tarball's real hash
+(confirmed by downloading the tarball independently and hashing it — the content itself is stable
+across repeated downloads from `codeload.github.com`, so this is pnpm miscomputing/copying the
+lockfile field, not the server serving inconsistent content). `--update-checksums` does not correct
+this for this `gitHosted` tarball dependency shape; it fails identically on retry. The reliable fix —
+what the script does — is to download the tarball independently, compute its real sha512 ourselves,
+and write that directly into the `resolution.integrity` field of the matching `pnpm-lock.yaml` entry
+before re-running `pnpm install`. Separately, if the tarball for the target commit is already in the
+local pnpm store from a prior attempt, `pnpm install` can resolve the entry with **no** `integrity`
+field at all rather than a stale one — the script checks for and fills in that case too, then re-runs
+`pnpm install` to confirm the lockfile it leaves behind is one pnpm has actually validated.
+
+If you ever need to redo this by hand: replace the old SHA in `pnpm-workspace.yaml`'s `allowBuilds`
+key with the new one (`pnpm update eslint-plugin-lensflow`'s error reports the resolved SHA even
+though the command itself fails), download
+`https://codeload.github.com/alexeieleusis/lens-flow/tar.gz/<new-sha>`, hash it
+(`openssl dgst -sha512 -binary <file> | base64`), and paste `sha512-<that-hash>` into the
+`resolution.integrity` field of the `eslint-plugin-lensflow@https://codeload.../tar.gz/<new-sha>#path:/eslint-lensflow-plugin`
+entry in `pnpm-lock.yaml` before running `pnpm install` again. pnpm sometimes leaves a stray leftover
+line in `pnpm-workspace.yaml` for the *old* SHA (`<old-key>: set this to true or false`); confirm via
+`grep eslint-plugin-lensflow pnpm-lock.yaml` that only the new SHA remains, then delete that line (the
+script does this automatically).
 
 ## Reference assets already seeded here — no install/config needed to start a phase
 
