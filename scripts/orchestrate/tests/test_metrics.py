@@ -1,5 +1,9 @@
 import json
+from datetime import datetime, timezone
 from pathlib import Path
+
+import pydantic
+import pytest
 
 from orchestrate import metrics
 from orchestrate.models import PhaseMetrics
@@ -27,6 +31,38 @@ def test_load_all_round_trips(tmp_path: Path) -> None:
     assert len(loaded) == 1
     assert loaded[0].phase_number == 1
     assert loaded[0].track == "baseline"
+
+
+def test_load_all_round_trips_datetime_fields(tmp_path: Path) -> None:
+    opened = datetime(2025, 6, 1, 10, 30, 0, tzinfo=timezone.utc)
+    merged = datetime(2025, 6, 1, 12, 0, 0, tzinfo=timezone.utc)
+    m = _metrics(pr_opened_at=opened, pr_merged_at=merged)
+    log = tmp_path / "experiment-log.json"
+    log.write_text(
+        json.dumps([m.model_dump(mode="json")]),
+        encoding="utf-8",
+    )
+
+    loaded = metrics.load_all(log)
+
+    assert len(loaded) == 1
+    assert loaded[0].pr_opened_at == opened
+    assert loaded[0].pr_merged_at == merged
+    assert loaded[0].pr_open_to_merge_seconds == 5400.0
+
+
+def test_load_all_raises_on_malformed_json(tmp_path: Path) -> None:
+    log = tmp_path / "experiment-log.json"
+    log.write_text("{invalid", encoding="utf-8")
+    with pytest.raises(pydantic.ValidationError):
+        metrics.load_all(log)
+
+
+def test_load_all_raises_on_schema_mismatch(tmp_path: Path) -> None:
+    log = tmp_path / "experiment-log.json"
+    log.write_text(json.dumps({"not": "an array"}), encoding="utf-8")
+    with pytest.raises(pydantic.ValidationError):
+        metrics.load_all(log)
 
 
 def test_render_writes_markdown_table(tmp_path: Path) -> None:
