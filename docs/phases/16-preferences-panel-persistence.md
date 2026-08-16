@@ -55,7 +55,9 @@ Excerpt, `docs/neighboku-ai-rebuild/requirements.md` §5.8 (Preferences panel), 
 >
 > Bottom drawer, opened via the gear icon. One `Switch` per preference, all mutually
 > independent:
->
+
+**⚠ Type mismatch in quoted §5.8:** The quote above states "One `Switch` per preference", but `pieceType` (§4.2) is a string value (`"Shapes"` | `"Faces"`), not a boolean. A `Switch` cannot correctly represent this categorical choice. See the explicit correction below.
+
 > | Label | Preference key |
 > |---|---|
 > | Piece Type: Shapes or Faces | `pieceType` |
