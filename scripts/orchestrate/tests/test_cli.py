@@ -86,12 +86,13 @@ def test_run_phase_maps_retry_budget_exhausted_to_its_exit_code(tmp_path: Path, 
     assert "unresolved review thread" in result.output
 
 
-def test_run_phase_missing_phase_file_fails_argument_parsing(tmp_path: Path) -> None:
+def test_run_phase_missing_phase_file_fails_at_runtime(tmp_path: Path) -> None:
     result = runner.invoke(
         app, _run_phase_args(tmp_path, tmp_path / "does-not-exist.md")
     )
 
-    assert result.exit_code != 0
+    assert result.exit_code == 2
+    assert "does not exist" in result.output
 
 
 def test_status_command_reports_pending_phase(tmp_path: Path) -> None:
