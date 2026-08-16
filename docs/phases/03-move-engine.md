@@ -37,14 +37,19 @@ playable puzzle:
 
 ### §3.5 Placing and undoing a move
 
-- `placePiece(pieceValue, cell, game)`: computes the piece's legality against the
-  *current* `pieceToFitCells` cache, decrements the tray count (removing the entry at
-  zero), writes the piece into the board, recomputes both fit caches, and appends a
-  `Move` (`{ pieceValue, cell, isValid }`) to `placedCells`.
-  - If `preferences.preventInvalidMoves` is `true` and the move is invalid, the function
-    **throws** rather than mutating state; the caller is responsible for catching this
-    and surfacing the invalid-move feedback (see §5.13). If the preference is `false`,
-    an invalid move is still recorded (with `isValid: false`) and applied to the board.
+- `placePiece(pieceValue, cell, game)` executes the following steps in order:
+  1. Compute the piece's legality against the *current* `pieceToFitCells` cache.
+  2. If `preferences.preventInvalidMoves` is `true` and the move is invalid, **throw**
+     immediately — no state is mutated and no caches are recomputed. The caller is
+     responsible for catching this and surfacing the invalid-move feedback (see §5.13).
+  3. Decrement the tray count (removing the entry at zero).
+  4. Write the piece into the board.
+  5. Recompute both fit caches (`pieceToFitCells` and `cellToFitPieces`), reflecting the
+     new board state regardless of whether `isValid` is `true` or `false`.
+  6. Append a `Move` (`{ pieceValue, cell, isValid }`) to `placedCells`.
+  - When `preferences.preventInvalidMoves` is `false`, an invalid move still reaches
+    steps 3–6: it is applied to the board, the caches are recomputed to reflect the
+    (now inconsistent) state, and the move is recorded with `isValid: false`.
 - `undoPlay(game)`: pops the last `Move`, returns its piece to the tray, blanks its
   cell, and recomputes both fit caches. Undoing with an empty `placedCells` is
   unhandled in the original (see §8.4) — the rebuild should reproduce this rather than
