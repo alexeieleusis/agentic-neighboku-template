@@ -220,6 +220,7 @@ def run_phase(
         tools.scope_check(track.review_clone, phase.scope_globs, track.base_branch)
 
         report_dir = track.review_clone / ".orchestrate-reports" / phase.branch_name
+        report_dir.mkdir(parents=True, exist_ok=True)
         cycle_index = 0
         while True:
             cycle_index += 1
