@@ -4,7 +4,13 @@ import pytest
 
 from orchestrate import phase_runner
 from orchestrate.config import TrackConfig
-from orchestrate.errors import EmptyImplementationError, ManualTestFailed, RetryBudgetExhausted
+from orchestrate.errors import (
+    EmptyImplementationError,
+    ManualTestFailed,
+    MergeGateFailure,
+    RetryBudgetExhausted,
+    ScopeViolation,
+)
 from orchestrate.models import PhaseSpec
 
 
@@ -269,3 +275,47 @@ def test_state_file_is_keyed_by_repo_and_branch_not_branch_alone(tmp_path: Path)
     assert phase_runner.resume_state_path(
         state_dir, baseline, phase
     ) != phase_runner.resume_state_path(state_dir, lensflow, phase)
+
+
+def test_scope_violation_raises_and_records_escalation(tmp_path: Path) -> None:
+    track = _track(tmp_path)
+    phase = _phase()
+    metrics_logs = []
+
+    def scope_fail(clone, globs, base):
+        raise ScopeViolation(["out.ts"], globs)
+
+    tools = _base_toolchain(
+        scope_check=scope_fail,
+        metrics_append_and_commit=lambda clone, log_json, log_md, m, base_branch: metrics_logs.append(m),
+    )
+
+    with pytest.raises(ScopeViolation) as excinfo:
+        phase_runner.run_phase(track, phase, toolchain=tools)
+
+    assert "out.ts" in str(excinfo.value)
+    assert len(metrics_logs) == 1
+    assert metrics_logs[0].human_escalations == 1
+    assert "outside declared scope" in metrics_logs[0].escalation_reason
+
+
+def test_merge_gate_failure_raises_and_records_escalation(tmp_path: Path) -> None:
+    track = _track(tmp_path)
+    phase = _phase()
+    metrics_logs = []
+
+    def gate_fail(clone):
+        raise MergeGateFailure("lint", "error: bad")
+
+    tools = _base_toolchain(
+        merge_gates_run=gate_fail,
+        metrics_append_and_commit=lambda clone, log_json, log_md, m, base_branch: metrics_logs.append(m),
+    )
+
+    with pytest.raises(MergeGateFailure) as excinfo:
+        phase_runner.run_phase(track, phase, toolchain=tools)
+
+    assert excinfo.value.gate_name == "lint"
+    assert len(metrics_logs) == 1
+    assert metrics_logs[0].human_escalations == 1
+    assert "merge gate" in metrics_logs[0].escalation_reason
