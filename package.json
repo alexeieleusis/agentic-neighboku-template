@@ -44,7 +44,7 @@
     "@vitejs/plugin-react-swc": "^4.3.3",
     "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^10.8.1",
-    "eslint-plugin-lensflow": "github:alexeieleusis/lens-flow#0c326d9e96dde638a66f593ca763290a8e383418#path:/eslint-lensflow-plugin",
+    "eslint-plugin-lensflow": "github:alexeieleusis/lens-flow#786258c68a14be51764a690b7c71e3c89c1e3777&path:/eslint-lensflow-plugin",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.5.3",
     "eslint-plugin-storybook": "^10.5.7",

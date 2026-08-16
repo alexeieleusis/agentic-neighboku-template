@@ -151,6 +151,20 @@ npm: `"eslint-plugin-lensflow": "github:alexeieleusis/lens-flow#path:/eslint-len
 `package.json`, tracking the sibling `lens-flow` repo's `main` branch. Rules run at `"warn"` via
 `eslint.lensflow.config.js` / `pnpm lint:lensflow`, separate from the main `pnpm lint`.
 
+**Syntax when pinning to a specific commit**: to combine a commit-ish with the `path:` subdirectory
+fragment, join them with `&`, not a second `#`:
+`github:alexeieleusis/lens-flow#<sha>&path:/eslint-lensflow-plugin`. A second `#` (e.g.
+`#<sha>#path:/eslint-lensflow-plugin`) is silently mis-parsed — pnpm treats everything after the
+*first* `#` (including the literal `path:/eslint-lensflow-plugin` suffix) as one committish to
+resolve, which of course doesn't exist as a ref, producing:
+`[ERROR] Could not resolve <sha>#path:/eslint-lensflow-plugin to a commit of
+https://github.com/alexeieleusis/lens-flow.git`. If you hit that error, check for a stray second
+`#` in the `package.json` dependency string before assuming the commit itself is missing or
+unpushed — verify the commit actually exists on the remote first with
+`git ls-remote https://github.com/alexeieleusis/lens-flow.git | grep <sha>` (having it locally in
+the sibling `~/development/lens-flow` clone is not sufficient; pnpm resolves against the GitHub
+remote, not any local clone) before debugging the dependency string.
+
 pnpm blocks build scripts (the plugin's `prepare` step, which builds `dist/` from source) for git
 dependencies by default (`ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED`) unless the exact resolved
 commit SHA is listed under `allowBuilds` in `pnpm-workspace.yaml`. Because that key embeds the SHA,
