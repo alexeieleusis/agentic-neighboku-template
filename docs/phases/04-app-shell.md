@@ -136,4 +136,4 @@ mutation, even for `Map`s.
 - Confirm the board and piece-tray area are present and visually below the top bar, even if the tray is empty/placeholder this phase.
 
 ## Depends on
-- Phase 3 merged.
+- Phase 3 merged (which includes board generation from Phase 2 and domain types from Phase 1)
