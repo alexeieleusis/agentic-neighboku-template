@@ -104,7 +104,10 @@ def unresolved_thread_count(clone: Path, owner: str, repo: str, pr_number: int) 
             args += ["-f", f"cursor={cursor}"]
         result = _run(clone, *args)
         data = json.loads(result.stdout)
-        threads = data["data"]["repository"]["pullRequest"]["reviewThreads"]
+        pr_data = data.get("data", {}).get("repository", {}).get("pullRequest")
+        if pr_data is None:
+            raise RuntimeError(f"PR {pr_number} not found in GraphQL response")
+        threads = pr_data["reviewThreads"]
         count += sum(1 for node in threads["nodes"] if not node["isResolved"])
         if not threads["pageInfo"]["hasNextPage"]:
             break
