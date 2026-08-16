@@ -42,7 +42,7 @@ def commit_all(clone: Path, message: str) -> bool:
     status = _run(clone, "status", "--porcelain")
     if not status.stdout.strip():
         return False
-    _run(clone, "commit", "-m", message)
+    _run(clone, "commit", "-m", message, "--")
     return True
 
 
