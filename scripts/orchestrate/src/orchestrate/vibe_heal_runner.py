@@ -54,6 +54,7 @@ def _run(review_clone: Path, *args: str) -> subprocess.CompletedProcess[str]:
         text=True,
         check=False,
         env=_env_with_sonar_scanner_on_path(),
+        timeout=300,
     )
     if result.returncode != 0:
         raise VibeHealCommandError(full_args, result.returncode, result.stderr)
