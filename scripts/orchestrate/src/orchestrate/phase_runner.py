@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from orchestrate import gh_ops, git_ops, harness_runner, manual_test, merge_gates, metrics
-from orchestrate import opencode_runner, scope_guard, vibe_heal_runner
+from orchestrate import opencode_runner, repo_guard, scope_guard, vibe_heal_runner
 from orchestrate.config import TrackConfig
 from orchestrate.errors import (
     EmptyImplementationError,
@@ -166,6 +166,7 @@ def run_phase(
     up at the iterate loop with the existing PR — rather than re-implementing
     from scratch or, worse, opening a second PR for the same phase.
     """
+    using_live_toolchain = toolchain is None and not dry_run
     tools = toolchain or (_dry_run_toolchain() if dry_run else _live_toolchain())
     cycle = RetryCycleState()
     result_metrics = PhaseMetrics(
@@ -186,7 +187,11 @@ def run_phase(
         else:
             # --- Step 1: implement -------------------------------------------
             tools.checkout_fresh_branch(track.impl_clone, phase.branch_name, track.base_branch)
+            if using_live_toolchain:
+                repo_guard.assert_repo_identity(track.impl_clone, track.repo_slug)
             tools.opencode_run(track.impl_clone, _render_prompt(phase))
+            if using_live_toolchain:
+                repo_guard.assert_repo_identity(track.impl_clone, track.repo_slug)
             committed = tools.commit_all(track.impl_clone, f"Implement {phase.pr_title}")
             if not committed:
                 raise EmptyImplementationError(

@@ -118,6 +118,19 @@ def test_diff_stat_parses_numstat_including_binary_files(mocker) -> None:
     assert removed == 2
 
 
+def test_diff_stat_skips_malformed_numstat_lines(mocker) -> None:
+    mocker.patch(
+        "orchestrate.git_ops.subprocess.run",
+        return_value=_completed(stdout="abc\t2\tsrc/a.ts\n10\t3\tsrc/b.ts\n"),
+    )
+
+    files, added, removed = git_ops.diff_stat(Path("/repo"))
+
+    assert files == 2
+    assert added == 10
+    assert removed == 5
+
+
 def test_run_raises_git_command_error_on_nonzero_exit(mocker) -> None:
     mocker.patch(
         "orchestrate.git_ops.subprocess.run",

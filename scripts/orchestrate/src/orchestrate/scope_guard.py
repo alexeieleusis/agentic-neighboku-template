@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from fnmatch import fnmatch
 from pathlib import Path
 
 from orchestrate import git_ops
@@ -7,8 +8,12 @@ from orchestrate.errors import ScopeViolation
 
 
 def matches_any(path: str, globs: list[str]) -> bool:
-    p = Path(path)
-    return any(p.match(glob) for glob in globs)
+    """fnmatch, not Path.match: Path.match() anchors from the right unless
+    the pattern is absolute, so e.g. Path("evil/src/App.tsx").match("src/*")
+    is True — a real scope-guard bypass for a check whose whole job is
+    keeping a diff inside its declared globs. fnmatch always matches the
+    full string."""
+    return any(fnmatch(path, glob) for glob in globs)
 
 
 def check(clone: Path, scope_globs: list[str], *, base_ref: str = "origin/main") -> None:

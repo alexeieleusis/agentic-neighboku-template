@@ -33,6 +33,7 @@ def run(impl_clone: Path, prompt: str, *, timeout: int = 900) -> str:
         message = f"Read {tmp_path} and follow the instructions exactly."
         result = subprocess.run(
             ["opencode", "run", message, "--pure", "--dir", str(impl_clone)],
+            cwd=impl_clone,
             capture_output=True,
             text=True,
             check=False,

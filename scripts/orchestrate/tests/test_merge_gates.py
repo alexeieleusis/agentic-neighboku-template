@@ -62,3 +62,17 @@ def test_output_tail_is_truncated(mocker) -> None:
     tail_lines = excinfo.value.output_tail.splitlines()
     assert len(tail_lines) == merge_gates._TAIL_LINES
     assert tail_lines[-1] == "line 199"
+
+
+def test_subprocess_run_exception_raises_merge_gate_failure(mocker) -> None:
+    mocker.patch(
+        "orchestrate.merge_gates.subprocess.run",
+        side_effect=FileNotFoundError("No such file or directory: pnpm"),
+    )
+
+    with pytest.raises(MergeGateFailure) as excinfo:
+        merge_gates.run(Path("/review-clone"))
+
+    assert excinfo.value.gate_name == "install"
+    assert "pnpm" in excinfo.value.output_tail
+    assert isinstance(excinfo.value.__cause__, FileNotFoundError)

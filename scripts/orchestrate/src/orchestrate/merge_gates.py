@@ -23,13 +23,16 @@ def run(review_clone: Path) -> None:
     says. Raises on the first failing gate rather than running all of them,
     so the escalation names one clear cause."""
     for name, command in _GATES:
-        result = subprocess.run(
-            command,
-            cwd=review_clone,
-            capture_output=True,
-            text=True,
-            check=False,
-        )
+        try:
+            result = subprocess.run(
+                command,
+                cwd=review_clone,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        except OSError as exc:
+            raise MergeGateFailure(name, str(exc)) from exc
         if result.returncode != 0:
             tail = "\n".join((result.stdout + result.stderr).splitlines()[-_TAIL_LINES:])
             raise MergeGateFailure(name, tail)

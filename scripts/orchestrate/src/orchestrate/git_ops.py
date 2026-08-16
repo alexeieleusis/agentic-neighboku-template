@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import subprocess
 from pathlib import Path
 
@@ -92,7 +93,9 @@ def diff_stat(clone: Path, base_ref: str = "origin/main") -> tuple[int, int, int
         files += 1
         a, r, _path = parts
         if a != "-":
-            added += int(a)
+            with contextlib.suppress(ValueError):
+                added += int(a)
         if r != "-":
-            removed += int(r)
+            with contextlib.suppress(ValueError):
+                removed += int(r)
     return files, added, removed

@@ -319,3 +319,37 @@ def test_merge_gate_failure_raises_and_records_escalation(tmp_path: Path) -> Non
     assert len(metrics_logs) == 1
     assert metrics_logs[0].human_escalations == 1
     assert "merge gate" in metrics_logs[0].escalation_reason
+
+
+def test_live_toolchain_checks_repo_identity_around_opencode_run(tmp_path: Path, mocker) -> None:
+    track = _track(tmp_path)
+    phase = _phase()
+    guard = mocker.patch("orchestrate.phase_runner.repo_guard.assert_repo_identity")
+    mocker.patch("orchestrate.phase_runner._live_toolchain", return_value=_base_toolchain())
+
+    phase_runner.run_phase(track, phase)
+
+    assert guard.call_count == 2
+    for call in guard.call_args_list:
+        assert call.args == (track.impl_clone, track.repo_slug)
+
+
+def test_dry_run_skips_repo_identity_check(tmp_path: Path, mocker) -> None:
+    track = _track(tmp_path)
+    phase = _phase()
+    guard = mocker.patch("orchestrate.phase_runner.repo_guard.assert_repo_identity")
+
+    phase_runner.run_phase(track, phase, dry_run=True)
+
+    guard.assert_not_called()
+
+
+def test_explicit_toolchain_skips_repo_identity_check(tmp_path: Path, mocker) -> None:
+    track = _track(tmp_path)
+    phase = _phase()
+    guard = mocker.patch("orchestrate.phase_runner.repo_guard.assert_repo_identity")
+    tools = _base_toolchain()
+
+    phase_runner.run_phase(track, phase, toolchain=tools)
+
+    guard.assert_not_called()
