@@ -148,14 +148,22 @@ def test_manual_test_retry_consumes_a_cycle_then_succeeds(tmp_path: Path) -> Non
 def test_manual_test_failure_with_no_retry_escalates(tmp_path: Path) -> None:
     track = _track(tmp_path)
     phase = _phase(manual_test_checklist=["Board renders"])
+    metrics_logs = []
 
     def manual_prompt(number, name, checklist):
         raise ManualTestFailed("board did not render")
 
-    tools = _base_toolchain(manual_test_prompt=manual_prompt)
+    tools = _base_toolchain(
+        manual_test_prompt=manual_prompt,
+        metrics_append_and_commit=lambda clone, log_json, log_md, m, base_branch: metrics_logs.append(m),
+    )
 
     with pytest.raises(ManualTestFailed):
         phase_runner.run_phase(track, phase, toolchain=tools)
+
+    assert len(metrics_logs) == 1
+    assert metrics_logs[0].human_escalations == 1
+    assert "board did not render" in metrics_logs[0].escalation_reason
 
 
 def test_vibe_heal_dedup_only_posts_when_new_fingerprints_appear(tmp_path: Path) -> None:
