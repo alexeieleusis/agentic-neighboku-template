@@ -249,10 +249,8 @@ def run_lockstep_command(
     for track_name, track_results in results.items():
         for result in track_results:
             _print_result(track_name, result.metrics.phase_number, result.metrics.phase_name, result)
-    console.print(
-        f"[green]Lockstep complete: {len(results['baseline'])} phase(s) on baseline, "
-        f"{len(results['lensflow'])} on lensflow.[/green]"
-    )
+    parts = [f"{len(track_results)} phase(s) on {track_name}" for track_name, track_results in results.items()]
+    console.print(f"[green]Lockstep complete: {', '.join(parts)}.[/green]")
 
 
 @app.command("status")
