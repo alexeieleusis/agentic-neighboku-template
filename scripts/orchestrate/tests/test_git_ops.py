@@ -50,7 +50,7 @@ def test_commit_all_commits_when_tree_dirty(mocker) -> None:
     assert made_commit is True
     assert run.call_count == 3
     commit_call = run.call_args_list[2]
-    assert commit_call.args[0] == ["git", "commit", "-m", "implement phase 1"]
+    assert commit_call.args[0] == ["git", "commit", "-m", "implement phase 1", "--"]
 
 
 def test_push_branch_uses_force_with_lease(mocker) -> None:
