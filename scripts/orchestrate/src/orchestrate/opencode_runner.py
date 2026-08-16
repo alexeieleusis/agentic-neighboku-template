@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -24,11 +25,10 @@ def run(impl_clone: Path, prompt: str, *, timeout: int = 900) -> str:
     the installed version — never pass it, despite dotharness's own backend
     and the planning docs referencing it.
     """
-    with tempfile.NamedTemporaryFile(
-        mode="w", suffix=".md", prefix="orchestrate_", delete=False
-    ) as tmp:
+    tmp_path = Path(tempfile.mktemp(suffix=".md", prefix="orchestrate_"))
+    fd = os.open(str(tmp_path), os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w") as tmp:
         tmp.write(prompt)
-        tmp_path = Path(tmp.name)
     try:
         message = f"Read {tmp_path} and follow the instructions exactly."
         result = subprocess.run(
