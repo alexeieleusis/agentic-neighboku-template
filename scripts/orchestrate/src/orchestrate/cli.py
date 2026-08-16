@@ -283,7 +283,12 @@ def status_command(
         if m is None:
             table.add_row(str(phase.number), phase.name, "pending", "-", "-")
         else:
-            status = "merged" if m.pr_merged_at is not None else "escalated"
+            if m.pr_merged_at is not None:
+                status = "merged"
+            elif m.human_escalations > 0:
+                status = "escalated"
+            else:
+                status = "in progress"
             table.add_row(
                 str(phase.number),
                 phase.name,
