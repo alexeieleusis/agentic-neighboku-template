@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from fnmatch import fnmatch
 from pathlib import Path
 
 from orchestrate import git_ops
@@ -8,7 +7,8 @@ from orchestrate.errors import ScopeViolation
 
 
 def matches_any(path: str, globs: list[str]) -> bool:
-    return any(fnmatch(path, glob) for glob in globs)
+    p = Path(path)
+    return any(p.match(glob) for glob in globs)
 
 
 def check(clone: Path, scope_globs: list[str], *, base_ref: str = "origin/main") -> None:
