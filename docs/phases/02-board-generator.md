@@ -56,6 +56,7 @@ new objects via spread (including `Map`s) — preserve this discipline in `board
 - Section size is computed as the largest prime factor of the board `size` (not a hardcoded lookup table), matching the worked examples in §3.3 (size 9 → 3, size 6 → 3, size 8 → 2, size 16 → 2).
 - Row/column/section uniqueness holds in every board produced by `buildBoard`: no piece value repeats within any row, column, or section.
 - Among valid candidates for a cell, the implementation prefers the piece(s) used least frequently so far on the board (soft heuristic, not a hard filter), and breaks ties randomly among the least-frequently-used candidates.
+- `buildBoard` accepts an optional `seed?` parameter that initializes a deterministic PRNG for tie-breaking, enabling tests to verify specific board outputs rather than only structural invariants.
 - When a cell has zero valid candidates, the entire board build is retried from scratch (no partial-board backtracking) until a full board succeeds.
 - The reference-vs-value comparison discrepancy (§8.7) is reproduced as observed (not silently corrected) and flagged via a code comment or PR note for human review.
 - Unit tests in `src/game/__tests__/boardBuilder.test.ts` cover, at minimum, the same floor as the original `boardBuilder.test.ts`: `findNeighbors`, `findExclusions`, `buildPossibleNeighbors`, `validNeighbors`, and a smoke test of `buildBoard` (produces a full, valid board without throwing).
