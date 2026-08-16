@@ -32,8 +32,17 @@ references to sections not defined in this file resolve as follows:
 
 - Single page, dark Material UI theme **forced** regardless of OS/browser preference
   (`createTheme({ palette: { mode: "dark" } })`, always applied).
-- Top bar (left to right, observed order): drag-fit-hint icon, Preferences button,
-  New Game button, Undo button, solvability icon, Help button.
+- Top bar (left to right, observed order):
+  - **drag-fit-hint icon**: MUI `OpenInNew` (rotated 45°) representing rotate-to-fit gesture;
+    `aria-label="Rotate piece to fit"`; purely decorative with a tooltip on hover
+    ("Drag to place; right-click or swipe to rotate").
+  - Preferences button
+  - New Game button
+  - Undo button
+  - **solvability icon**: MUI `CheckCircle` (solvable) or `ReportGProblem` (unsolvable);
+    `aria-live="polite"` with `aria-label="Position is solvable"` or
+    `aria-label="No solution exists"`; purely decorative indicator (no click handler).
+  - Help button
 - Below the top bar: the board, then the piece tray, both inside a shared
   `DndContext` so drag-and-drop works across them.
 - A Snackbar for invalid-move errors and a Dialog for game-finished state overlay the
