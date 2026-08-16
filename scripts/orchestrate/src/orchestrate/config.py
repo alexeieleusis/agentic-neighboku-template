@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 HARNESS_TOOL_DIR = Path("~/.harness/tools/pr-review").expanduser()
 VIBE_HEAL_TOOL_DIR = Path("~/development/vibe-heal").expanduser()
@@ -23,6 +23,13 @@ class TrackConfig(BaseModel):
     docs_phases_dir: Path | None = None
     base_branch: str = "main"
     max_cycles: int = 3
+
+    @field_validator("repo_slug")
+    @classmethod
+    def validate_repo_slug(cls, v: str) -> str:
+        if "/" not in v:
+            raise ValueError(f"repo_slug must be in 'owner/repo' format, got: {v!r}")
+        return v
 
     @property
     def owner(self) -> str:
