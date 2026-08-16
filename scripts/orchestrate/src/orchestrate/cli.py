@@ -25,7 +25,7 @@ app = typer.Typer(
 )
 console = Console()
 
-_DEFAULT_STATE_DIR = Path(__file__).resolve().parents[2] / ".orchestrate-state"
+_DEFAULT_STATE_DIR = Path.home() / ".orchestrate-state"
 
 
 def _track_config(
