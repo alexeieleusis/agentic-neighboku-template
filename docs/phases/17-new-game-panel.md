@@ -15,6 +15,7 @@
 ### 4.1 Selectable board sizes
 
 The New Game panel offers exactly these sizes: **4×4, 6×6, 8×8, 9×9, 12×12, 16×16**.
+On first open, the Board Size select defaults to **8×8**.
 Selecting a size updates `dimension`: for `size < 8` the dimension is left unchanged
 (whatever it currently is); for `size >= 8` it is forced to `3`. `base` is not changed
 by the size selector at all in the observed code path — carry this exact rule forward
