@@ -9,6 +9,25 @@
 
 ## Requirements
 
+The section numbers below derive from `docs/neighboku-ai-rebuild/requirements.md`.
+Only the sections relevant to this phase are reproduced here; the gaps (e.g. 5.2–7.1)
+are covered in other phase files or in the parent requirements document. Cross-
+references to sections not defined in this file resolve as follows:
+
+- §5.13 (Snackbar for invalid-move errors) and §5.14 (Dialog for game-finished
+  state) — defined in the parent `requirements.md`; the Snackbar and Dialog are
+  shell overlay elements introduced in this phase and wired in later phases
+  (see phases 11 and 15).
+- §7.1 (Tech stack) — defined in the parent `requirements.md`; lists the original
+  dependency majors (MUI v6, `eslint-plugin-react-hooks`, `@vitejs/plugin-react-swc`,
+  etc.). See `docs/CONVENTIONS.md` "Dependency-freshness notes" for what has changed
+  in this repo (e.g. MUI v9). Storybook catalog stories are out of scope for this
+  stack unless a later phase explicitly adopts them.
+- §7.4 (Code organization conventions / domain boundary) — excerpted in
+  `docs/phases/01-domain-core.md`; governs file layout (`ComponentName.tsx`,
+  `ComponentName.types.ts`, `useComponentName*.ts`) and the domain boundary
+  (`src/game/` has zero React/UI imports).
+
 ### 5.1 Shell and theming
 
 - Single page, dark Material UI theme **forced** regardless of OS/browser preference
