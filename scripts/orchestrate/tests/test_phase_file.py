@@ -118,3 +118,9 @@ def test_malformed_title_raises(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="Phase NN"):
         parse_phase_file(path)
+
+
+def test_empty_file_raises(tmp_path: Path) -> None:
+    path = _write(tmp_path, "empty.md", "")
+    with pytest.raises(ValueError, match="empty"):
+        parse_phase_file(path)
