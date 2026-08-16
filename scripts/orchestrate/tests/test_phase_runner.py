@@ -193,6 +193,10 @@ def test_vibe_heal_dedup_only_posts_when_new_fingerprints_appear(tmp_path: Path)
     assert result.merged is True
     # same fingerprint set both cycles -> only the first scan's post fires
     assert len(post_calls) == 1
+    # cycle 1 introduces 1 new fingerprint; cycle 2 sees the same set
+    assert result.metrics.sonar_issues_opened == 1
+    assert result.metrics.sonar_issues_resolved == 0
+    assert result.metrics.sonar_issues_left_open == 1
 
 
 def test_auto_merge_false_skips_merge_but_runs_gates(tmp_path: Path) -> None:
