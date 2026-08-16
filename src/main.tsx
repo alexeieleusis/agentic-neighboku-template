@@ -11,7 +11,7 @@ import "./index.css";
 import { App } from "./App.tsx";
 import type { AppState } from "./App.types.ts";
 import { darkTheme } from "./theme.ts";
-import { createFaceTileId } from "./components/FaceSwatchBoard/FaceSwatchBoard.types.ts";
+import { createFaceTileId } from "./components/FaceSwatchBoard/FaceSwatchBoard.ids.ts";
 
 const initialState: AppState = {
   counter: { count: 0 },

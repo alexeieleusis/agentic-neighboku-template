@@ -1,15 +1,8 @@
 import type { DragEndEvent } from "@dnd-kit/core";
 
-export type FaceTileId = string & { readonly brand: unique symbol };
+import type { FaceTileId } from "./FaceSwatchBoard.ids";
 
-export function createFaceTileId(raw: string): FaceTileId {
-  const trimmed = raw.trim();
-  if (trimmed.length === 0) {
-    throw new TypeError("FaceTileId must not be empty");
-  }
-  // eslint-disable-next-line lensflow/no-direct-brand-cast
-  return trimmed as FaceTileId;
-}
+export { createFaceTileId, type FaceTileId } from "./FaceSwatchBoard.ids";
 
 export interface FaceSwatchBoardState {
   readonly trayTileIds: ReadonlyArray<FaceTileId>;
