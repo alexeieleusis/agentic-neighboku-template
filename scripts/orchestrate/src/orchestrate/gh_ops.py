@@ -13,15 +13,24 @@ class GhCommandError(CommandError):
 
 
 def _run(cwd: Path, *args: str) -> subprocess.CompletedProcess[str]:
-    result = subprocess.run(
-        ["gh", *args],
-        cwd=cwd,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
+    cmd = ["gh", *args]
+    try:
+        result = subprocess.run(
+            cmd,
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=120,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise GhCommandError(
+            cmd,
+            -1,
+            f"command timed out after 120s: stdout={exc.stdout!r}, stderr={exc.stderr!r}",
+        ) from exc
     if result.returncode != 0:
-        raise GhCommandError(["gh", *args], result.returncode, result.stderr)
+        raise GhCommandError(cmd, result.returncode, result.stderr)
     return result
 
 
