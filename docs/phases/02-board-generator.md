@@ -32,6 +32,12 @@ From `docs/neighboku-ai-rebuild/requirements.md` §3.3 (Row / column / section u
 > configured — carry the same derivation forward rather than hardcoding a section-size
 > table.
 
+**Prime board size edge case:** When `size` is a prime number (e.g., 7), the largest prime
+factor is `size` itself, so `sectionSize === size` and there is effectively one section
+covering the entire board. This is valid behavior — the section uniqueness constraint
+simply becomes a global uniqueness constraint across the board. No fallback is needed;
+the derivation `sectionSize = largestPrimeFactor(size)` applies uniformly.
+
 Known discrepancy to reproduce, not fix — `docs/neighboku-ai-rebuild/requirements.md` §8.7
 (full excerpt in `docs/phases/01-domain-core.md`): "comparisons everywhere are by reference,
 not by value" is a known, acknowledged correctness gap in the original. This applies to
@@ -53,7 +59,7 @@ new objects via spread (including `Map`s) — preserve this discipline in `board
 - `buildBoard` fills cells strictly row-major, left-to-right within a row, top-to-bottom across rows.
 - Candidate computation for a cell checks the neighbor rule only against its already-placed orthogonal neighbors (up and left) — right/down/diagonal neighbors are never consulted, since they aren't placed yet at fill time.
 - Candidate computation excludes any piece already used in the same row, the same column, or the same section as the cell being filled.
-- Section size is computed as the largest prime factor of the board `size` (not a hardcoded lookup table), matching the worked examples in §3.3 (size 9 → 3, size 6 → 3, size 8 → 2, size 16 → 2).
+- Section size is computed as the largest prime factor of the board `size` (not a hardcoded lookup table), matching the worked examples in §3.3 (size 9 → 3, size 6 → 3, size 8 → 2, size 16 → 2). For prime `size`, `sectionSize === size` (one section covering the full board), which is valid — no special fallback is required.
 - Row/column/section uniqueness holds in every board produced by `buildBoard`: no piece value repeats within any row, column, or section.
 - Among valid candidates for a cell, the implementation prefers the piece(s) used least frequently so far on the board (soft heuristic, not a hard filter), and breaks ties randomly among the least-frequently-used candidates.
 - `buildBoard` accepts an optional `seed?` parameter that initializes a deterministic PRNG for tie-breaking, enabling tests to verify specific board outputs rather than only structural invariants.
