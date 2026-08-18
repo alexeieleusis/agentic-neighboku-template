@@ -25,9 +25,14 @@ jobs:
 
       - run: pnpm lint
 
-      - run: pnpm test run
+      - name: Test with coverage
+        run: pnpm coverage
 
-      - run: pnpm coverage
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: coverage/lcov.info
 
       - name: Cache Storybook build
         uses: actions/cache@v4
