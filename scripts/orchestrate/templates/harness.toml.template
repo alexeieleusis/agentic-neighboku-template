@@ -4,10 +4,11 @@
 # template is based on: ~/development/vibe-heal/.harness.toml,
 # ~/.harness/.harness-pr_review.toml).
 #
-# Usage: copy this file to <review_clone>/.harness.toml and fill in the two
-# <...> placeholders below. Every other value is a real, working setting for
-# this machine (confirmed 2026-08-09/2026-08-10) — leave it as-is unless it
-# actually breaks. Pass this file's path to orchestrate's --harness-config.
+# Usage: copy this file to <review_clone>/.harness.toml and fill in the <...>
+# placeholders in the [repo] section below. Every other value is a real,
+# working setting for this machine (confirmed 2026-08-09/2026-08-10) — leave it
+# as-is unless it actually breaks. Pass this file's path to orchestrate's
+# --harness-config.
 
 [harness]
 backend = "opencode"               # "opencode" or "claude" — this project uses opencode
