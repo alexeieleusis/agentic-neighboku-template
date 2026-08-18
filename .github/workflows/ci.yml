@@ -28,6 +28,13 @@ jobs:
       - name: Test with coverage
         run: pnpm coverage
 
+      - name: Verify coverage report exists
+        run: |
+          if [ ! -s coverage/lcov.info ]; then
+            echo "::error::coverage/lcov.info is missing or empty — the coverage step produced no output"
+            exit 1
+          fi
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
