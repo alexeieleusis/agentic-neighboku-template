@@ -124,7 +124,8 @@ def _api_json(clone: Path, endpoint: str, *fields: str) -> Any:
     body)."""
     args = [endpoint]
     if fields:
-        args += ["-X", "POST", *fields]
+        args += ["-X", "POST"]
+        args += [a for f in fields for a in ("--raw-field", f)]
     result = _run(clone, "api", *args)
     body = result.stdout.strip()
     return json.loads(body) if body else {}
